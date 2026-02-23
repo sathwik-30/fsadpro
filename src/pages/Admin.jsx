@@ -2,7 +2,7 @@ import { useState } from "react";
 import Layout from "../components/Layout";
 
 function Admin() {
-  const [donations, setDonations] = useState([
+  const [donations] = useState([
     { name: "Rice Bags", status: "Received" },
     { name: "Clothes", status: "Received" },
     { name: "Water Bottles", status: "Received" }
@@ -30,122 +30,100 @@ function Admin() {
   };
 
   return (
-    <Layout role="admin"> {/* ⭐ IMPORTANT CHANGE HERE */}
+    <Layout role="admin">
+      <h1 className="mb-10 text-4xl font-bold text-white">Admin Dashboard</h1>
 
-      {/* TITLE */}
-      <h1 className="text-4xl font-bold mb-10 text-white">
-        Admin Dashboard
-      </h1>
-
-      {/* STATS */}
-      <div className="grid md:grid-cols-4 gap-6 mb-10">
-
-        <div className="bg-white/10 backdrop-blur-lg border border-white/20 text-white p-6 rounded-2xl">
+      <div className="mb-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="rounded-2xl border border-white/20 bg-white/10 p-6 text-white backdrop-blur-lg">
           <p className="text-gray-300">Total Donations</p>
           <h2 className="text-3xl font-bold">{donations.length}</h2>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-lg border border-white/20 text-white p-6 rounded-2xl">
+        <div className="rounded-2xl border border-white/20 bg-white/10 p-6 text-white backdrop-blur-lg">
           <p className="text-gray-300">Requests</p>
           <h2 className="text-3xl font-bold">{requests.length}</h2>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-lg border border-white/20 text-white p-6 rounded-2xl">
+        <div className="rounded-2xl border border-white/20 bg-white/10 p-6 text-white backdrop-blur-lg">
           <p className="text-gray-300">Active Drives</p>
           <h2 className="text-3xl font-bold">{drives.length}</h2>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-lg border border-white/20 text-white p-6 rounded-2xl">
+        <div className="rounded-2xl border border-white/20 bg-white/10 p-6 text-white backdrop-blur-lg">
           <p className="text-gray-300">Delivery Rate</p>
           <h2 className="text-3xl font-bold text-green-400">
             {Math.floor(
-              (requests.filter(r => r.status === "Approved").length /
-                requests.length) * 100
-            ) || 0}%
+              (requests.filter((r) => r.status === "Approved").length / requests.length) * 100
+            ) || 0}
+            %
           </h2>
         </div>
-
       </div>
 
-      {/* DRIVES */}
-      <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-2xl shadow-xl mb-8">
+      <div className="mb-8 rounded-2xl border border-white/20 bg-white/10 p-6 shadow-xl backdrop-blur-lg">
+        <h2 className="mb-5 text-xl text-white">Manage Drives</h2>
 
-        <h2 className="text-xl mb-5 text-white">Manage Drives</h2>
-
-        <div className="flex gap-3 mb-5">
+        <div className="mb-5 flex flex-wrap gap-3">
           <input
             value={newDrive}
             onChange={(e) => setNewDrive(e.target.value)}
             placeholder="Enter drive name"
-            className="bg-white/10 border border-white/20 text-white placeholder-gray-300 p-3 rounded w-full outline-none"
+            className="w-full rounded border border-white/20 bg-white/10 p-3 text-white placeholder-gray-300 outline-none"
           />
 
           <button
             onClick={addDrive}
-            className="bg-indigo-600 text-white px-5 rounded-lg font-semibold"
+            className="rounded-lg bg-indigo-600 px-5 py-3 font-semibold text-white transition-colors hover:bg-indigo-700"
           >
             Add
           </button>
         </div>
 
         {drives.map((d, i) => (
-          <div key={i} className="p-3 bg-white/10 border border-white/20 rounded mb-2 text-white">
+          <div key={i} className="mb-2 rounded border border-white/20 bg-white/10 p-3 text-white">
             {d}
           </div>
         ))}
-
       </div>
 
-      {/* DONATIONS */}
-      <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-2xl shadow-xl mb-8">
-
-        <h2 className="text-xl mb-5 text-white">Recent Donations</h2>
+      <div className="mb-8 rounded-2xl border border-white/20 bg-white/10 p-6 shadow-xl backdrop-blur-lg">
+        <h2 className="mb-5 text-xl text-white">Recent Donations</h2>
 
         {donations.map((d, i) => (
           <div
             key={i}
-            className="p-4 bg-white/10 border border-white/20 rounded mb-3 flex justify-between text-white"
+            className="mb-3 flex justify-between rounded border border-white/20 bg-white/10 p-4 text-white"
           >
             {d.name}
 
-            <span className="bg-blue-500 px-3 py-1 rounded">
-              {d.status}
-            </span>
+            <span className="rounded bg-blue-500 px-3 py-1">{d.status}</span>
           </div>
         ))}
-
       </div>
 
-      {/* REQUESTS */}
-      <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-2xl shadow-xl">
-
-        <h2 className="text-xl mb-5 text-white">Recipient Requests</h2>
+      <div className="rounded-2xl border border-white/20 bg-white/10 p-6 shadow-xl backdrop-blur-lg">
+        <h2 className="mb-5 text-xl text-white">Recipient Requests</h2>
 
         {requests.map((r, i) => (
           <div
             key={i}
-            className="p-4 bg-white/10 border border-white/20 rounded mb-3 flex justify-between items-center text-white"
+            className="mb-3 flex items-center justify-between rounded border border-white/20 bg-white/10 p-4 text-white"
           >
             {r.name}
 
             {r.status === "Pending" ? (
               <button
                 onClick={() => approveRequest(i)}
-                className="bg-green-600 text-white px-4 py-1 rounded-lg"
+                className="rounded-lg bg-green-600 px-4 py-1 text-white transition-colors hover:bg-green-700"
               >
                 Approve
               </button>
             ) : (
-              <span className="bg-green-500 px-4 py-1 rounded">
-                Approved
-              </span>
+              <span className="rounded bg-green-500 px-4 py-1">Approved</span>
             )}
-
           </div>
         ))}
-
       </div>
-
     </Layout>
   );
 }

@@ -5,64 +5,57 @@ function Layout({ children, role }) {
   const location = useLocation();
 
   const logout = () => {
+    localStorage.removeItem("role");
     navigate("/");
   };
 
   const linkStyle = (path) =>
-    `px-4 py-2 rounded-lg font-medium transition ${
+    `px-3 py-2 rounded-lg font-medium transition-colors ${
       location.pathname === path
         ? "bg-blue-600 text-white"
-        : "text-gray-700 hover:bg-blue-100"
+        : "text-slate-200 hover:bg-white/15 hover:text-white"
     }`;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#1e3a8a]">
+      <header className="sticky top-0 z-30 border-b border-white/20 bg-slate-900/80 backdrop-blur-xl">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-10">
+          <h1 className="text-2xl font-bold tracking-tight text-white">
+            Donation Connect
+          </h1>
 
-      {/* TOP NAVBAR */}
-      <div className="bg-white/90 backdrop-blur-md shadow px-10 py-4 flex justify-between items-center">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            {role === "admin" && (
+              <Link className={linkStyle("/admin")} to="/admin">
+                Admin
+              </Link>
+            )}
 
-        <h1 className="text-2xl font-bold text-gray-800">
-          Dashboard
-        </h1>
-
-        <div className="flex items-center gap-4">
-
-          {/* ADMIN ONLY */}
-          {role === "admin" && (
-            <Link className={linkStyle("/admin")} to="/admin">
-              Admin
+            <Link className={linkStyle("/donor")} to="/donor">
+              Donor
             </Link>
-          )}
 
-          {/* COMMON LINKS */}
-          <Link className={linkStyle("/donor")} to="/donor">
-            Donor
-          </Link>
+            <Link className={linkStyle("/recipient")} to="/recipient">
+              Recipient
+            </Link>
 
-          <Link className={linkStyle("/recipient")} to="/recipient">
-            Recipient
-          </Link>
+            <Link className={linkStyle("/logistics")} to="/logistics">
+              Logistics
+            </Link>
 
-          <Link className={linkStyle("/logistics")} to="/logistics">
-            Logistics
-          </Link>
-
-          {/* LOGOUT */}
-          <button
-            onClick={logout}
-            className="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-600 transition"
-          >
-            Logout
-          </button>
-
+            <button
+              onClick={logout}
+              className="rounded-lg bg-rose-500 px-4 py-2 font-semibold text-white transition-colors hover:bg-rose-600"
+            >
+              Logout
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
-      {/* PAGE CONTENT */}
-      <div className="p-10 text-white">
+      <div className="mx-auto w-full max-w-7xl px-4 py-8 text-white sm:px-6 lg:px-10 lg:py-10">
         {children}
       </div>
-
     </div>
   );
 }

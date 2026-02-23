@@ -1,13 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import Login from "./pages/Login";
-import Admin from "./pages/Admin";
-import Donor from "./pages/Donor";
-import Recipient from "./pages/Recipient";
-import Logistics from "./pages/Logistics";
+import Login from "./pages/Login.jsx";
+import Admin from "./pages/Admin.jsx";
+import Donor from "./pages/Donor.jsx";
+import Recipient from "./pages/Recipient.jsx";
+import Logistics from "./pages/Logistics.jsx";
 
 function App() {
-  // FIX: make role comparison safe
   const role = localStorage.getItem("role")?.toLowerCase();
 
   return (
@@ -23,24 +22,24 @@ function App() {
           element={
             role === "admin"
               ? <Admin />
-              : <Navigate to="/" />
+              : <Navigate to="/" replace />
           }
         />
 
-        {/* COMMON PAGES FOR ALL LOGGED USERS */}
+        {/* LOGGED USERS */}
         <Route
           path="/donor"
-          element={role ? <Donor /> : <Navigate to="/" />}
+          element={role ? <Donor /> : <Navigate to="/" replace />}
         />
 
         <Route
           path="/recipient"
-          element={role ? <Recipient /> : <Navigate to="/" />}
+          element={role ? <Recipient /> : <Navigate to="/" replace />}
         />
 
         <Route
           path="/logistics"
-          element={role ? <Logistics /> : <Navigate to="/" />}
+          element={role ? <Logistics /> : <Navigate to="/" replace />}
         />
 
       </Routes>

@@ -7,11 +7,7 @@ function Donor() {
   const [drive, setDrive] = useState("");
   const [list, setList] = useState([]);
 
-  const drives = [
-    "Flood Relief Drive",
-    "Winter Clothes Drive",
-    "Food Donation Camp"
-  ];
+  const drives = ["Flood Relief Drive", "Winter Clothes Drive", "Food Donation Camp"];
 
   const addItem = () => {
     if (!item || !qty || !drive) return;
@@ -25,10 +21,8 @@ function Donor() {
   const updateStatus = (index) => {
     const updated = [...list];
 
-    if (updated[index].status === "Pending")
-      updated[index].status = "Approved";
-    else if (updated[index].status === "Approved")
-      updated[index].status = "Delivered";
+    if (updated[index].status === "Pending") updated[index].status = "Approved";
+    else if (updated[index].status === "Approved") updated[index].status = "Delivered";
 
     setList(updated);
   };
@@ -40,23 +34,15 @@ function Donor() {
   };
 
   return (
-    <Layout role="donor">   {/* ⭐ ONLY CHANGE */}
+    <Layout role="donor">
+      <h1 className="mb-8 text-3xl font-bold text-white">Donor Dashboard</h1>
 
-      <h1 className="text-3xl font-bold mb-8 text-white">
-        Donor Dashboard
-      </h1>
+      <div className="mb-8 rounded-2xl border border-white/20 bg-white/10 p-6 shadow-xl backdrop-blur-lg">
+        <h2 className="mb-5 text-xl font-semibold text-white">Add Donation</h2>
 
-      {/* FORM */}
-      <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-2xl shadow-xl mb-8">
-
-        <h2 className="text-xl font-semibold mb-5 text-white">
-          Add Donation
-        </h2>
-
-        <div className="flex gap-4 flex-wrap">
-
+        <div className="flex flex-wrap gap-4">
           <input
-            className="bg-white/10 border border-white/20 text-white placeholder-gray-300 p-3 rounded-lg flex-1 outline-none"
+            className="flex-1 rounded-lg border border-white/20 bg-white/10 p-3 text-white outline-none placeholder:text-gray-300"
             placeholder="Item name"
             value={item}
             onChange={(e) => setItem(e.target.value)}
@@ -64,14 +50,14 @@ function Donor() {
 
           <input
             type="number"
-            className="bg-white/10 border border-white/20 text-white placeholder-gray-300 p-3 rounded-lg w-32 outline-none"
+            className="w-32 rounded-lg border border-white/20 bg-white/10 p-3 text-white outline-none placeholder:text-gray-300"
             placeholder="Qty"
             value={qty}
             onChange={(e) => setQty(e.target.value)}
           />
 
           <select
-            className="bg-white/10 border border-white/20 text-white p-3 rounded-lg outline-none"
+            className="rounded-lg border border-white/20 bg-white/10 p-3 text-white outline-none"
             value={drive}
             onChange={(e) => setDrive(e.target.value)}
           >
@@ -83,58 +69,38 @@ function Donor() {
 
           <button
             onClick={addItem}
-            className="bg-green-600 text-white px-6 rounded-lg font-semibold"
+            className="rounded-lg bg-green-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-green-700"
           >
             Add
           </button>
-
         </div>
       </div>
 
-      {/* LIST */}
-      <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-2xl shadow-xl">
+      <div className="rounded-2xl border border-white/20 bg-white/10 p-6 shadow-xl backdrop-blur-lg">
+        <h2 className="mb-6 text-xl font-semibold text-white">Your Donations</h2>
 
-        <h2 className="text-xl font-semibold mb-6 text-white">
-          Your Donations
-        </h2>
-
-        {list.length === 0 && (
-          <p className="text-gray-300">No donations yet.</p>
-        )}
+        {list.length === 0 && <p className="text-gray-300">No donations yet.</p>}
 
         {list.map((d, i) => (
-          <div
-            key={i}
-            className="border-b border-white/20 py-5 flex justify-between items-center"
-          >
-
+          <div key={i} className="flex items-center justify-between border-b border-white/20 py-5">
             <div>
-              <p className="font-semibold text-white text-lg">
-                {d.item}
-              </p>
-              <p className="text-sm text-gray-300">
-                Drive: {d.drive}
-              </p>
+              <p className="text-lg font-semibold text-white">{d.item}</p>
+              <p className="text-sm text-gray-300">Drive: {d.drive}</p>
             </div>
 
             <div className="text-right">
-              <p className="text-green-400 font-bold mb-2">
-                Qty: {d.qty}
-              </p>
+              <p className="mb-2 font-bold text-green-400">Qty: {d.qty}</p>
 
               <button
                 onClick={() => updateStatus(i)}
-                className={`${statusColor(d.status)} text-white px-4 py-1 rounded-full text-sm font-semibold`}
+                className={`${statusColor(d.status)} rounded-full px-4 py-1 text-sm font-semibold text-white`}
               >
                 {d.status}
               </button>
             </div>
-
           </div>
         ))}
-
       </div>
-
     </Layout>
   );
 }

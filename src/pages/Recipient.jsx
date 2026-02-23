@@ -42,7 +42,7 @@ function Recipient() {
   };
 
   return (
-    <Layout>
+    <Layout role="recipient">
 
       {/* TITLE */}
       <h1 className="text-3xl font-bold mb-8 text-white">
@@ -56,7 +56,7 @@ function Recipient() {
           Request Essentials
         </h2>
 
-        <div className="flex gap-4 flex-wrap">
+        <div className="flex flex-wrap gap-4">
 
           <input
             className="bg-white/10 border border-white/20 text-white placeholder-gray-300 p-3 rounded-lg flex-1 outline-none"
@@ -75,7 +75,7 @@ function Recipient() {
 
           <button
             onClick={addRequest}
-            className="bg-blue-600 text-white px-6 rounded-lg font-semibold"
+            className="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700"
           >
             Request
           </button>

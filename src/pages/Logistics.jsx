@@ -32,7 +32,7 @@ function Logistics() {
   };
 
   return (
-    <Layout>
+    <Layout role="logistics">
 
       {/* TITLE */}
       <h1 className="text-3xl font-bold mb-8 text-white">
@@ -40,7 +40,7 @@ function Logistics() {
       </h1>
 
       {/* STATS */}
-      <div className="grid grid-cols-3 gap-6 mb-10">
+      <div className="mb-10 grid gap-6 sm:grid-cols-3">
 
         <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-2xl shadow-xl text-white">
           <p className="text-gray-300">Total Deliveries</p>
@@ -105,7 +105,7 @@ function Logistics() {
 
               <button
                 onClick={() => updateStatus(i)}
-                className="block mt-3 bg-blue-600 text-white px-4 py-1 rounded-lg font-semibold"
+                className="mt-3 block rounded-lg bg-blue-600 px-4 py-1 font-semibold text-white transition-colors hover:bg-blue-700"
               >
                 Update Status
               </button>
