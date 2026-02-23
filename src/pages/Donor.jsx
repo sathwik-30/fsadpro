@@ -2,11 +2,9 @@ import { useState } from "react";
 import Layout from "../components/Layout";
 
 function Donor() {
-
   const [item, setItem] = useState("");
   const [qty, setQty] = useState("");
   const [drive, setDrive] = useState("");
-
   const [list, setList] = useState([]);
 
   const drives = [
@@ -18,17 +16,12 @@ function Donor() {
   const addItem = () => {
     if (!item || !qty || !drive) return;
 
-    setList([
-      ...list,
-      { item, qty, drive, status: "Pending" }
-    ]);
-
+    setList([...list, { item, qty, drive, status: "Pending" }]);
     setItem("");
     setQty("");
     setDrive("");
   };
 
-  // Fake status progress (simulation)
   const updateStatus = (index) => {
     const updated = [...list];
 
@@ -40,24 +33,30 @@ function Donor() {
     setList(updated);
   };
 
-  return (
-    <Layout>
+  const statusColor = (status) => {
+    if (status === "Pending") return "bg-yellow-500";
+    if (status === "Approved") return "bg-blue-500";
+    return "bg-green-600";
+  };
 
-      <h1 className="text-3xl font-bold mb-6">
+  return (
+    <Layout role="donor">   {/* ⭐ ONLY CHANGE */}
+
+      <h1 className="text-3xl font-bold mb-8 text-white">
         Donor Dashboard
       </h1>
 
       {/* FORM */}
-      <div className="bg-white p-6 rounded-xl shadow mb-6">
+      <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-2xl shadow-xl mb-8">
 
-        <h2 className="text-xl font-semibold mb-4">
+        <h2 className="text-xl font-semibold mb-5 text-white">
           Add Donation
         </h2>
 
-        <div className="flex gap-3 flex-wrap">
+        <div className="flex gap-4 flex-wrap">
 
           <input
-            className="border p-3 rounded-lg flex-1"
+            className="bg-white/10 border border-white/20 text-white placeholder-gray-300 p-3 rounded-lg flex-1 outline-none"
             placeholder="Item name"
             value={item}
             onChange={(e) => setItem(e.target.value)}
@@ -65,15 +64,14 @@ function Donor() {
 
           <input
             type="number"
-            className="border p-3 rounded-lg w-32"
+            className="bg-white/10 border border-white/20 text-white placeholder-gray-300 p-3 rounded-lg w-32 outline-none"
             placeholder="Qty"
             value={qty}
             onChange={(e) => setQty(e.target.value)}
           />
 
-          {/* DRIVE SELECT */}
           <select
-            className="border p-3 rounded-lg"
+            className="bg-white/10 border border-white/20 text-white p-3 rounded-lg outline-none"
             value={drive}
             onChange={(e) => setDrive(e.target.value)}
           >
@@ -85,49 +83,48 @@ function Donor() {
 
           <button
             onClick={addItem}
-            className="bg-green-600 text-white px-6 rounded-lg"
+            className="bg-green-600 text-white px-6 rounded-lg font-semibold"
           >
             Add
           </button>
 
         </div>
-
       </div>
 
       {/* LIST */}
-      <div className="bg-white p-6 rounded-xl shadow">
+      <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-2xl shadow-xl">
 
-        <h2 className="text-xl font-semibold mb-4">
+        <h2 className="text-xl font-semibold mb-6 text-white">
           Your Donations
         </h2>
 
         {list.length === 0 && (
-          <p className="text-gray-500">
-            No donations yet.
-          </p>
+          <p className="text-gray-300">No donations yet.</p>
         )}
 
         {list.map((d, i) => (
           <div
             key={i}
-            className="border-b py-4 flex justify-between items-center"
+            className="border-b border-white/20 py-5 flex justify-between items-center"
           >
 
             <div>
-              <p className="font-medium">{d.item}</p>
-              <p className="text-sm text-gray-500">
+              <p className="font-semibold text-white text-lg">
+                {d.item}
+              </p>
+              <p className="text-sm text-gray-300">
                 Drive: {d.drive}
               </p>
             </div>
 
             <div className="text-right">
-              <p className="text-green-600 font-semibold">
+              <p className="text-green-400 font-bold mb-2">
                 Qty: {d.qty}
               </p>
 
               <button
                 onClick={() => updateStatus(i)}
-                className="mt-2 text-sm bg-blue-500 text-white px-3 py-1 rounded"
+                className={`${statusColor(d.status)} text-white px-4 py-1 rounded-full text-sm font-semibold`}
               >
                 {d.status}
               </button>

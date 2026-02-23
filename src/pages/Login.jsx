@@ -10,8 +10,32 @@ function Login() {
   const [showLogin,setShowLogin]=useState(false);
 
   const handleLogin=()=>{
+
+    // ADMIN LOGIN (separate credentials)
+    if(role==="admin"){
+      if(email==="sathwik@klu" && pass==="3"){
+        
+        // ⭐ FIX: store role
+        localStorage.setItem("role","admin");
+
+        // ⭐ FORCE reload so App.js re-reads role
+        window.location.href="/admin";
+
+      }else{
+        alert("Invalid Admin Credentials");
+      }
+      return;
+    }
+
+    // OTHER ROLES LOGIN
     if(email==="fsad@klu" && pass==="3" && role){
-      navigate("/"+role);
+
+      // ⭐ FIX: store role
+      localStorage.setItem("role",role);
+
+      // ⭐ FORCE reload
+      window.location.href="/"+role;
+
     }else{
       alert("Enter valid credentials & select role");
     }
@@ -20,14 +44,12 @@ function Login() {
   return (
     <div className="relative min-h-screen flex items-center">
 
-      {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{backgroundImage:"url('/img.jpeg')"}}
       />
       <div className="absolute inset-0 bg-black/60"/>
 
-      {/* TOP NAV */}
       <div className="absolute top-6 right-10 z-20 flex gap-4">
 
         <button
@@ -46,7 +68,6 @@ function Login() {
 
       </div>
 
-      {/* HERO SECTION */}
       <div className="relative z-10 w-1/2 px-20 text-white">
 
         <div className="bg-white/20 backdrop-blur-md px-5 py-2 inline-block rounded-full mb-6">
@@ -61,7 +82,6 @@ function Login() {
           Donate, request, and track essentials seamlessly from donor to recipient.
         </p>
 
-        {/* HERO BUTTONS */}
         <div className="mt-8 flex gap-4">
 
           <button
@@ -86,31 +106,13 @@ function Login() {
 
         </div>
 
-        {/* STATS */}
-        <div className="mt-12 flex gap-12 text-lg font-semibold">
-          <div>
-            <p className="text-3xl">12,400+</p>
-            <p className="text-gray-300">Items Donated</p>
-          </div>
-          <div>
-            <p className="text-3xl">3,200+</p>
-            <p className="text-gray-300">Families Helped</p>
-          </div>
-          <div>
-            <p className="text-3xl">98%</p>
-            <p className="text-gray-300">Delivery Rate</p>
-          </div>
-        </div>
-
       </div>
 
-      {/* LOGIN MODAL */}
       {showLogin && (
         <div className="absolute inset-0 flex items-center justify-center z-20">
 
           <div className="bg-white w-96 p-10 rounded-2xl shadow-2xl relative">
 
-            {/* Close */}
             <button
               onClick={()=>setShowLogin(false)}
               className="absolute top-3 right-4 text-gray-500 text-xl"

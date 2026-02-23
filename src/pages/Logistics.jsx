@@ -2,7 +2,6 @@ import { useState } from "react";
 import Layout from "../components/Layout";
 
 function Logistics() {
-
   const [deliveries, setDeliveries] = useState([
     { item: "Rice Bags", qty: 50, status: "In Transit", vehicle: "Truck" },
     { item: "Clothes", qty: 120, status: "Delivered", vehicle: "Van" },
@@ -10,12 +9,11 @@ function Logistics() {
   ]);
 
   const getStatusColor = (status) => {
-    if (status === "Delivered") return "bg-green-100 text-green-700";
-    if (status === "In Transit") return "bg-yellow-100 text-yellow-700";
-    return "bg-red-100 text-red-700";
+    if (status === "Delivered") return "bg-green-500";
+    if (status === "In Transit") return "bg-yellow-500";
+    return "bg-red-500";
   };
 
-  // Update delivery status
   const updateStatus = (index) => {
     const updated = [...deliveries];
 
@@ -27,7 +25,6 @@ function Logistics() {
     setDeliveries(updated);
   };
 
-  // Assign vehicle
   const assignVehicle = (index, vehicle) => {
     const updated = [...deliveries];
     updated[index].vehicle = vehicle;
@@ -37,57 +34,61 @@ function Logistics() {
   return (
     <Layout>
 
-      <h1 className="text-3xl font-bold mb-6">
+      {/* TITLE */}
+      <h1 className="text-3xl font-bold mb-8 text-white">
         Logistics Dashboard
       </h1>
 
-      {/* Stats */}
-      <div className="grid grid-cols-3 gap-6 mb-8">
+      {/* STATS */}
+      <div className="grid grid-cols-3 gap-6 mb-10">
 
-        <div className="bg-white p-5 rounded-xl shadow">
-          <p>Total Deliveries</p>
-          <h2 className="text-2xl font-bold">
-            {deliveries.length}
-          </h2>
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-2xl shadow-xl text-white">
+          <p className="text-gray-300">Total Deliveries</p>
+          <h2 className="text-3xl font-bold">{deliveries.length}</h2>
         </div>
 
-        <div className="bg-white p-5 rounded-xl shadow">
-          <p>In Transit</p>
-          <h2 className="text-2xl font-bold text-yellow-600">
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-2xl shadow-xl text-white">
+          <p className="text-gray-300">In Transit</p>
+          <h2 className="text-3xl font-bold text-yellow-400">
             {deliveries.filter(d => d.status === "In Transit").length}
           </h2>
         </div>
 
-        <div className="bg-white p-5 rounded-xl shadow">
-          <p>Delivered</p>
-          <h2 className="text-2xl font-bold text-green-600">
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-2xl shadow-xl text-white">
+          <p className="text-gray-300">Delivered</p>
+          <h2 className="text-3xl font-bold text-green-400">
             {deliveries.filter(d => d.status === "Delivered").length}
           </h2>
         </div>
 
       </div>
 
-      {/* Delivery List */}
-      <div className="bg-white p-6 rounded-xl shadow">
+      {/* DELIVERY LIST */}
+      <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-2xl shadow-xl">
 
-        <h2 className="text-xl font-semibold mb-4">
+        <h2 className="text-xl font-semibold mb-6 text-white">
           Delivery Management
         </h2>
 
         {deliveries.map((d, i) => (
-          <div key={i} className="border-b py-4 flex justify-between items-center">
+          <div
+            key={i}
+            className="border-b border-white/20 py-5 flex justify-between items-center"
+          >
 
             <div>
-              <p className="font-semibold">{d.item}</p>
-              <p className="text-sm text-gray-500">
+              <p className="font-semibold text-white text-lg">
+                {d.item}
+              </p>
+
+              <p className="text-sm text-gray-300">
                 Qty: {d.qty}
               </p>
 
-              {/* Vehicle Assignment */}
               <select
                 value={d.vehicle}
                 onChange={(e) => assignVehicle(i, e.target.value)}
-                className="border mt-2 p-1 rounded"
+                className="bg-white/10 border border-white/20 text-white mt-3 p-2 rounded outline-none"
               >
                 <option value="">Assign Vehicle</option>
                 <option>Truck</option>
@@ -98,13 +99,13 @@ function Logistics() {
 
             <div className="text-right">
 
-              <span className={`px-4 py-1 rounded-full text-sm font-semibold ${getStatusColor(d.status)}`}>
+              <span className={`${getStatusColor(d.status)} text-white px-4 py-1 rounded-full text-sm font-semibold`}>
                 {d.status}
               </span>
 
               <button
                 onClick={() => updateStatus(i)}
-                className="block mt-2 bg-blue-500 text-white px-3 py-1 rounded"
+                className="block mt-3 bg-blue-600 text-white px-4 py-1 rounded-lg font-semibold"
               >
                 Update Status
               </button>
