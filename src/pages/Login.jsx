@@ -1,18 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-function Login() {
+/* ✅ CHANGE 1: receive setRole from App */
+function Login({ setRole }) {
+
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRoleLocal] = useState("");   // renamed local state to avoid clash
   const [showLogin, setShowLogin] = useState(false);
 
   const handleLogin = () => {
+
+    /* ADMIN LOGIN */
     if (role === "admin") {
       if (email === "sathwik@klu" && pass === "3") {
         localStorage.setItem("role", "admin");
+
+        setRole("admin");   // ✅ CHANGE 2: trigger App rerender
+
         navigate("/admin", { replace: true });
       } else {
         alert("Invalid Admin Credentials");
@@ -20,8 +27,12 @@ function Login() {
       return;
     }
 
+    /* NORMAL USERS */
     if (email === "fsad@klu" && pass === "3" && role) {
       localStorage.setItem("role", role);
+
+      setRole(role);   // ✅ CHANGE 3: trigger App rerender
+
       navigate(`/${role}`, { replace: true });
     } else {
       alert("Enter valid credentials and select role");
@@ -69,7 +80,7 @@ function Login() {
           <div className="mt-8 flex flex-wrap gap-4">
             <button
               onClick={() => {
-                setRole("donor");
+                setRoleLocal("donor");   // updated
                 setShowLogin(true);
               }}
               className="rounded-lg bg-orange-500 px-6 py-3 font-semibold transition-colors hover:bg-orange-600"
@@ -79,7 +90,7 @@ function Login() {
 
             <button
               onClick={() => {
-                setRole("recipient");
+                setRoleLocal("recipient");  // updated
                 setShowLogin(true);
               }}
               className="rounded-lg border border-white px-6 py-3 transition-colors hover:bg-white/20"
@@ -122,7 +133,7 @@ function Login() {
             <select
               className="mb-6 w-full rounded-lg border p-3"
               value={role}
-              onChange={(e) => setRole(e.target.value)}
+              onChange={(e) => setRoleLocal(e.target.value)}
             >
               <option value="">Select Role</option>
               <option value="admin">Admin</option>

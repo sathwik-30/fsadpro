@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 import Login from "./pages/Login.jsx";
 import Admin from "./pages/Admin.jsx";
@@ -7,16 +8,22 @@ import Recipient from "./pages/Recipient.jsx";
 import Logistics from "./pages/Logistics.jsx";
 
 function App() {
-  const role = localStorage.getItem("role")?.toLowerCase();
+  const [role, setRole] = useState(null);
+
+  // Load role on first render
+  useEffect(() => {
+    const savedRole = localStorage.getItem("role");
+    if (savedRole) setRole(savedRole.toLowerCase());
+  }, []);
 
   return (
     <BrowserRouter>
       <Routes>
 
         {/* LOGIN */}
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Login setRole={setRole} />} />
 
-        {/* ADMIN ONLY */}
+        {/* ADMIN */}
         <Route
           path="/admin"
           element={
@@ -26,7 +33,7 @@ function App() {
           }
         />
 
-        {/* LOGGED USERS */}
+        {/* USER PAGES */}
         <Route
           path="/donor"
           element={role ? <Donor /> : <Navigate to="/" replace />}
