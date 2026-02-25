@@ -1,129 +1,145 @@
 import { useState } from "react";
 import Layout from "../components/Layout";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  LineChart,
+  Line
+} from "recharts";
 
 function Admin() {
+
   const [donations] = useState([
     { name: "Rice Bags", status: "Received" },
     { name: "Clothes", status: "Received" },
     { name: "Water Bottles", status: "Received" }
   ]);
 
-  const [requests, setRequests] = useState([
+  const [requests] = useState([
     { name: "Blankets", status: "Pending" },
-    { name: "Medicine Kits", status: "Pending" },
-    { name: "Food Packets", status: "Pending" }
+    { name: "Medicine Kits", status: "Approved" },
+    { name: "Food Packets", status: "Approved" }
   ]);
 
-  const [drives, setDrives] = useState(["Flood Relief Drive"]);
-  const [newDrive, setNewDrive] = useState("");
+  const [search, setSearch] = useState("");
 
-  const approveRequest = (index) => {
-    const updated = [...requests];
-    updated[index].status = "Approved";
-    setRequests(updated);
-  };
+  const donationData = [
+    { month: "Jan", value: 20 },
+    { month: "Feb", value: 35 },
+    { month: "Mar", value: 40 },
+    { month: "Apr", value: 28 },
+    { month: "May", value: 50 }
+  ];
 
-  const addDrive = () => {
-    if (!newDrive) return;
-    setDrives([...drives, newDrive]);
-    setNewDrive("");
-  };
+  const requestStatusData = [
+    { name: "Approved", value: 2 },
+    { name: "Pending", value: 1 }
+  ];
+
+  const COLORS = ["#3b82f6", "#facc15"];
 
   return (
     <Layout role="admin">
-      <h1 className="mb-10 text-4xl font-bold text-white">Admin Dashboard</h1>
 
-      <div className="mb-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-2xl border border-white/20 bg-white/10 p-6 text-white backdrop-blur-lg">
+      <h1 className="text-4xl font-bold mb-10">
+        Admin Control Panel
+      </h1>
+
+      {/* STAT CARDS */}
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4 mb-12">
+
+        <div className="bg-white/10 p-6 rounded-2xl border border-white/20">
           <p className="text-gray-300">Total Donations</p>
           <h2 className="text-3xl font-bold">{donations.length}</h2>
         </div>
 
-        <div className="rounded-2xl border border-white/20 bg-white/10 p-6 text-white backdrop-blur-lg">
-          <p className="text-gray-300">Requests</p>
+        <div className="bg-white/10 p-6 rounded-2xl border border-white/20">
+          <p className="text-gray-300">Total Requests</p>
           <h2 className="text-3xl font-bold">{requests.length}</h2>
         </div>
 
-        <div className="rounded-2xl border border-white/20 bg-white/10 p-6 text-white backdrop-blur-lg">
-          <p className="text-gray-300">Active Drives</p>
-          <h2 className="text-3xl font-bold">{drives.length}</h2>
-        </div>
-
-        <div className="rounded-2xl border border-white/20 bg-white/10 p-6 text-white backdrop-blur-lg">
-          <p className="text-gray-300">Delivery Rate</p>
+        <div className="bg-white/10 p-6 rounded-2xl border border-white/20">
+          <p className="text-gray-300">Approved Requests</p>
           <h2 className="text-3xl font-bold text-green-400">
-            {Math.floor(
-              (requests.filter((r) => r.status === "Approved").length / requests.length) * 100
-            ) || 0}
-            %
+            {requests.filter(r => r.status === "Approved").length}
           </h2>
         </div>
-      </div>
 
-      <div className="mb-8 rounded-2xl border border-white/20 bg-white/10 p-6 shadow-xl backdrop-blur-lg">
-        <h2 className="mb-5 text-xl text-white">Manage Drives</h2>
-
-        <div className="mb-5 flex flex-wrap gap-3">
-          <input
-            value={newDrive}
-            onChange={(e) => setNewDrive(e.target.value)}
-            placeholder="Enter drive name"
-            className="w-full rounded border border-white/20 bg-white/10 p-3 text-white placeholder-gray-300 outline-none"
-          />
-
-          <button
-            onClick={addDrive}
-            className="rounded-lg bg-indigo-600 px-5 py-3 font-semibold text-white transition-colors hover:bg-indigo-700"
-          >
-            Add
-          </button>
+        <div className="bg-white/10 p-6 rounded-2xl border border-white/20">
+          <p className="text-gray-300">Active Users</p>
+          <h2 className="text-3xl font-bold text-blue-400">
+            24
+          </h2>
         </div>
 
-        {drives.map((d, i) => (
-          <div key={i} className="mb-2 rounded border border-white/20 bg-white/10 p-3 text-white">
-            {d}
-          </div>
-        ))}
       </div>
 
-      <div className="mb-8 rounded-2xl border border-white/20 bg-white/10 p-6 shadow-xl backdrop-blur-lg">
-        <h2 className="mb-5 text-xl text-white">Recent Donations</h2>
+      {/* CHARTS */}
+      <div className="grid gap-10 lg:grid-cols-2 mb-12">
 
-        {donations.map((d, i) => (
-          <div
-            key={i}
-            className="mb-3 flex justify-between rounded border border-white/20 bg-white/10 p-4 text-white"
-          >
-            {d.name}
+        {/* LINE CHART */}
+        <div className="bg-white/10 p-6 rounded-2xl border border-white/20">
+          <h2 className="text-xl mb-4">Monthly Donation Trend</h2>
 
-            <span className="rounded bg-blue-500 px-3 py-1">{d.status}</span>
-          </div>
-        ))}
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={donationData}>
+              <XAxis dataKey="month" stroke="#ccc" />
+              <YAxis stroke="#ccc" />
+              <Tooltip />
+              <Line type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={3} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* PIE CHART */}
+        <div className="bg-white/10 p-6 rounded-2xl border border-white/20">
+          <h2 className="text-xl mb-4">Request Status</h2>
+
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie data={requestStatusData} dataKey="value" outerRadius={100}>
+                {requestStatusData.map((entry, index) => (
+                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+
       </div>
 
-      <div className="rounded-2xl border border-white/20 bg-white/10 p-6 shadow-xl backdrop-blur-lg">
-        <h2 className="mb-5 text-xl text-white">Recipient Requests</h2>
+      {/* SEARCH + ACTIVITY */}
+      <div className="bg-white/10 p-6 rounded-2xl border border-white/20">
 
-        {requests.map((r, i) => (
-          <div
-            key={i}
-            className="mb-3 flex items-center justify-between rounded border border-white/20 bg-white/10 p-4 text-white"
-          >
-            {r.name}
+        <h2 className="text-xl mb-6">Recent Activity</h2>
 
-            {r.status === "Pending" ? (
-              <button
-                onClick={() => approveRequest(i)}
-                className="rounded-lg bg-green-600 px-4 py-1 text-white transition-colors hover:bg-green-700"
-              >
-                Approve
-              </button>
-            ) : (
-              <span className="rounded bg-green-500 px-4 py-1">Approved</span>
-            )}
-          </div>
-        ))}
+        <input
+          placeholder="Search donations..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full mb-6 p-3 rounded bg-white/10 border border-white/20 text-white outline-none"
+        />
+
+        {donations
+          .filter(d => d.name.toLowerCase().includes(search.toLowerCase()))
+          .map((d, i) => (
+            <div key={i} className="border-b border-white/20 py-4 flex justify-between">
+              <span>{d.name}</span>
+              <span className="text-blue-400">{d.status}</span>
+            </div>
+          ))
+        }
+
       </div>
+
     </Layout>
   );
 }

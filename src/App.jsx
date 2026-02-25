@@ -10,7 +10,6 @@ import Logistics from "./pages/Logistics.jsx";
 function App() {
   const [role, setRole] = useState(null);
 
-  // Load role on first render
   useEffect(() => {
     const savedRole = localStorage.getItem("role");
     if (savedRole) setRole(savedRole.toLowerCase());
@@ -20,10 +19,8 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        {/* LOGIN */}
         <Route path="/" element={<Login setRole={setRole} />} />
 
-        {/* ADMIN */}
         <Route
           path="/admin"
           element={
@@ -33,20 +30,31 @@ function App() {
           }
         />
 
-        {/* USER PAGES */}
         <Route
           path="/donor"
-          element={role ? <Donor /> : <Navigate to="/" replace />}
+          element={
+            role === "donor"
+              ? <Donor />
+              : <Navigate to="/" replace />
+          }
         />
 
         <Route
           path="/recipient"
-          element={role ? <Recipient /> : <Navigate to="/" replace />}
+          element={
+            role === "recipient"
+              ? <Recipient />
+              : <Navigate to="/" replace />
+          }
         />
 
         <Route
           path="/logistics"
-          element={role ? <Logistics /> : <Navigate to="/" replace />}
+          element={
+            role === "logistics"
+              ? <Logistics />
+              : <Navigate to="/" replace />
+          }
         />
 
       </Routes>

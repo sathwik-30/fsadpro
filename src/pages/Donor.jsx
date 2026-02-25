@@ -7,7 +7,7 @@ function Donor() {
   const [drive, setDrive] = useState("");
   const [list, setList] = useState([]);
 
-  const drives = ["Flood Relief Drive", "Winter Clothes Drive", "Food Donation Camp"];
+  const drives = ["Flood Relief Drive", "Winter Clothes Drive", "Food Donation Camp","Others"];
 
   const addItem = () => {
     if (!item || !qty || !drive) return;
@@ -61,9 +61,14 @@ function Donor() {
             value={drive}
             onChange={(e) => setDrive(e.target.value)}
           >
-            <option value="">Select Drive</option>
+            <option value="" className="text-black bg-white">
+              Select Drive
+            </option>
+
             {drives.map((d, i) => (
-              <option key={i}>{d}</option>
+              <option key={i} value={d} className="text-black bg-white">
+                {d}
+              </option>
             ))}
           </select>
 

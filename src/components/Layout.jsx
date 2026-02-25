@@ -17,7 +17,8 @@ function Layout({ children, role }) {
     }`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#1e3a8a]">
+    <div className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#1e3a8a]">
+
       <header className="sticky top-0 z-30 border-b border-white/20 bg-slate-900/80 backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-10">
           <h1 className="text-2xl font-bold tracking-tight text-white">
@@ -25,6 +26,7 @@ function Layout({ children, role }) {
           </h1>
 
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+
             {role === "admin" && (
               <Link className={linkStyle("/admin")} to="/admin">
                 Admin
@@ -45,10 +47,11 @@ function Layout({ children, role }) {
 
             <button
               onClick={logout}
-              className="rounded-lg bg-rose-500 px-4 py-2 font-semibold text-white transition-colors hover:bg-rose-600"
+              className="rounded-lg bg-red-500 px-4 py-2 font-semibold text-white transition-colors hover:bg-red-600"
             >
               Logout
             </button>
+
           </div>
         </div>
       </header>
@@ -56,6 +59,7 @@ function Layout({ children, role }) {
       <div className="mx-auto w-full max-w-7xl px-4 py-8 text-white sm:px-6 lg:px-10 lg:py-10">
         {children}
       </div>
+
     </div>
   );
 }
